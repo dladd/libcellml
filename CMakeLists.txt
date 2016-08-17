@@ -103,6 +103,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Find libxml2
 find_package(LibXml2 REQUIRED)
 
+# Find symengine
+find_package(SymEngine 0.1.0 CONFIG)
+
 # cellml library target
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 

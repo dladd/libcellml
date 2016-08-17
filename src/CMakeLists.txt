@@ -118,13 +118,21 @@ target_include_directories(cellml
   $<INSTALL_INTERFACE:include/>
   $<INSTALL_INTERFACE:include/libcellml/module>
   ${LIBXML2_INCLUDE_DIR}
+  ${SYMENGINE_INCLUDE_DIRS}
   PRIVATE
   ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(cellml PUBLIC ${LIBXML2_LIBRARIES})
+target_link_libraries(cellml
+    PUBLIC
+    ${LIBXML2_LIBRARIES}
+    ${SYMENGINE_LIBRARIES}
+)
 
-target_compile_definitions(cellml PUBLIC ${LIBXML2_DEFINITIONS})
+target_compile_definitions(cellml
+    PUBLIC
+    ${LIBXML2_DEFINITIONS}
+)
 
 if(LIBCELLML_UNIT_TESTS)
   target_compile_definitions(cellml PRIVATE EXPORT_FOR_TESTING=LIBCELLML_EXPORT)
