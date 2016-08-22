@@ -10,6 +10,8 @@ from sympy.solvers.ode import (_undetermined_coefficients_match, checkodesol,
     classify_ode, classify_sysode, constant_renumber, constantsimp,
     homogeneous_order, infinitesimals, checkinfsol, checksysodesol)
 from sympy.utilities.pytest import raises
+from scipy.integrate import odeint
+
 
 import mpmath
 from mpmath import odefun, nprint
@@ -21,43 +23,59 @@ def simpleOde():
     t = Symbol("t")
     a = Symbol("a")
     b = Symbol("b")
+    y0 = Symbol("y0")
     y = Function("y")
+
     eq = Eq(y(t).diff(t), -a * y(t) + b)
     print("The general solution for \n")
     pprint(eq)
-    print("\nis:\n\n")
-    solution = dsolve(eq, y(t))
+    print("\nis:\n")
+    solution = dsolve(eq, y(t), "default", True, ics={y(0): y0})
     pprint(solution)
+    # Print some simplified versions of the expression
+    print("Which may also be expressed: \n")
+    pprint(expand(solution))
+    pprint(factor(solution))
+    pprint(cancel(solution))
 
-    print("\n\n ----- Adding algebraic complexity: ----------\n")
+    print("\n\n\n ----- Adding algebraic complexity: ----------\n")
     # add complexity to this expression
     a = Function("a")
     b = Function("b")
     c = Symbol("c")
 
-    a = b(c) + c**2
-    b = 2.*c
+    a = 1/c**2
+    b = 4*c + 1
     print("a = ")
     pprint(a)
     print("\nb = ")
     pprint(b)
     eq = Eq(y(t).diff(t), -a * y(t) + b)
     print("\nsolution is now:\n\n")
-    solution = dsolve(eq, y(t))
+    solution = dsolve(eq, y(t), "default", True, ics={y(0): y0})
     pprint(solution)
-    #print(solution)
+    # Print some simplified versions of the expression
+    print("Which may also be expressed: \n")
+    pprint(expand(solution))
+    pprint(factor(solution))
+    pprint(cancel(solution))
 
     print("\n\n ----- Set an algebraic initial value: ----------\n")
     # Set initial value for y as an algebraic expression
     y0 = Function("y0")
 
-    y0 = 1./c**2
+    y0 = b/a
     print("\ny(0) = ")
     pprint(y0)
 
     print("\nsolution is now:\n\n")
     solution = dsolve(eq, y(t), "default", True, ics={y(0) : y0})
-    pprint(solution)
+    pprint(simplify(solution))
+    # Print some simplified versions of the expression
+    print("Which may also be expressed: \n")
+    pprint(expand(solution))
+    pprint(factor(solution))
+    pprint(cancel(solution))
 
 
 def lorenz():
