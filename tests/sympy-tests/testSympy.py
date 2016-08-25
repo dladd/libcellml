@@ -105,6 +105,123 @@ def lorenz():
     print("\nSystem info:")
     pprint(classify_sysode(lorenzEqs))
 
+# Attempt to solve the Rivlin-Saunders (1951) system for stress and strain.
+# See: https://models.physiomeproject.org/exposure/8ed2abe0b72de8d146522d8331999c42/rivlin_saunders_1951.cellml/view
+def rivlin():
+    print("\n\n========== Mooney-Rivlin system ==========\n")
+    E11 = Symbol("E11")
+    E22 = Symbol("E22")
+    E33 = Symbol("E33")
+    E12 = Symbol("E12")
+    E13 = Symbol("E13")
+    E23 = Symbol("E23")
+
+    Tdev11 = Symbol("Tdev11")
+    Tdev22 = Symbol("Tdev22")
+    Tdev33 = Symbol("Tdev33")
+    Tdev12 = Symbol("Tdev12")
+    Tdev13 = Symbol("Tdev13")
+    Tdev23 = Symbol("Tdev23")
+
+    c1 = Symbol("c1")
+    c2 = Symbol("c2")
+
+    sysEq = (
+        Eq(Tdev11, 2.0 * c1 + 4.0 * c2 * (E22 + E33) + 4 * c2),
+        Eq(Tdev22, 2.0 * c1 + 4.0 * c2 * (E11 + E33) + 4 * c2),
+        Eq(Tdev33, 2.0 * c1 + 4.0 * c2 * (E11 + E22) + 4 * c2),
+        Eq(Tdev12, -4.0 * E12 * c2),
+        Eq(Tdev13, -4.0 * E13 * c2),
+        Eq(Tdev23, -4.0 * E23 * c2)
+    )
+
+    print("\nThe system of equations\n")
+    pprint(sysEq)
+
+    print("\n\n May be solved for stress:\n")
+    stressSolution = solve(sysEq, (Tdev11, Tdev22, Tdev33, Tdev12, Tdev13, Tdev23))
+    pprint(stressSolution)
+
+    print("\n\n or strain:\n")
+    strainSolution = solve(sysEq, (E11, E22, E33, E12, E13, E23))
+    pprint(strainSolution)
+
+
+# Attempt to solve the guccione system for stress and strain.
+def guccione():
+    print("\n\n========== Guccione system (models.physiomeproject.org/e/26d) ==========\n")
+    E11 = Symbol("E11")
+    E22 = Symbol("E22")
+    E33 = Symbol("E33")
+    E12 = Symbol("E12")
+    E13 = Symbol("E13")
+    E23 = Symbol("E23")
+
+    c1 = Symbol("c1")
+    c2 = Symbol("c2")
+    c3 = Symbol("c3")
+    c4 = Symbol("c4")
+    c5 = Symbol("c5")
+
+    Tdev11 = Symbol("Tdev11")
+    Tdev22 = Symbol("Tdev22")
+    Tdev33 = Symbol("Tdev33")
+    Tdev12 = Symbol("Tdev12")
+    Tdev13 = Symbol("Tdev13")
+    Tdev23 = Symbol("Tdev23")
+
+    Q = Symbol("Q")
+
+    sysEq = (
+        Eq(Q, 2 * c2 * (E11 + E22 + E * 33) +
+           c3 * E11 ** 2 +
+           c4 * (E33 ** 2 + E22 ** 2 + 2 * E23 ** 2) +
+           2 * c5 * (E13 ** 2 + E12 ** 2)),
+        Eq(Tdev11, c1 * exp(Q) * (c2 + c3 * E11)),
+        Eq(Tdev22, c1 * exp(Q) * (c2 + c4 * E22)),
+        Eq(Tdev33, c1 * exp(Q) * (c2 + c4 * E33)),
+        Eq(Tdev12, c1 * exp(Q) * c5 * E12),
+        Eq(Tdev13, c1 * exp(Q) * c5 * E13),
+        Eq(Tdev23, c1 * exp(Q) * c4 * E23)
+    )
+
+    print("\nThe system of equations\n")
+    pprint(sysEq)
+
+    print("\n\n May be solved for stress:\n")
+    stressSolution = solve(sysEq, (Tdev11, Tdev22, Tdev33, Tdev12, Tdev13, Tdev23))
+    pprint(stressSolution)
+
+    print("\n\n but not strain:\n")
+    strainSolution = solve(sysEq, (E11, E22, E33, E12, E13, E23))
+    pprint(strainSolution)
+
+    print("\n\n Try declaring Q as a separate equation and defining constants:\n")
+    Q = 2 * c2 * (E11 + E22 + E * 33) + c3 * E11 ** 2 + c4 * (E33 ** 2 + E22 ** 2 + 2 * E23 ** 2) + 2 * c5 * (
+    E13 ** 2 + E12 ** 2)
+    c1 = 0.88
+    c2 = 0
+    c3 = 18.5
+    c4 = 3.58
+    c5 = 3.26
+
+    sysEq = (
+        Eq(Tdev11, c1 * exp(Q) * (c2 + c3 * E11)),
+        Eq(Tdev22, c1 * exp(Q) * (c2 + c4 * E22)),
+        Eq(Tdev33, c1 * exp(Q) * (c2 + c4 * E33)),
+        Eq(Tdev12, c1 * exp(Q) * c5 * E12),
+        Eq(Tdev13, c1 * exp(Q) * c5 * E13),
+        Eq(Tdev23, c1 * exp(Q) * c4 * E23)
+    )
+
+    print("\n\n which then gives stress:\n")
+    stressSolution = solve(sysEq, (Tdev11, Tdev22, Tdev33, Tdev12, Tdev13, Tdev23))
+    pprint(stressSolution)
+
+    print("\n\n And strain as:\n")
+    strainSolution = solve(sysEq, (E11, E22, E33, E12, E13, E23))
+    pprint(strainSolution)
+
 
 # Attempt to solve an underdetermined systems of equations.
 def underdetermined():
@@ -158,6 +275,8 @@ def overdetermined():
 if __name__ == "__main__":
     simpleOde()
     lorenz()
+    rivlin()
+    #guccione()
 
     underdetermined()
     overdetermined()
