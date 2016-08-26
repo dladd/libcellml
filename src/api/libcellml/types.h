@@ -1,5 +1,5 @@
 /*
-Copyright 2015 University of Auckland
+Copyright libCellML Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef LIBCELLML_LIBCELLML_TYPES_H_
-#define LIBCELLML_LIBCELLML_TYPES_H_
+#pragma once
 
 #include <memory>
 
@@ -40,7 +39,3 @@ class Variable; /**< Forward declaration of Variable class. */
 typedef std::shared_ptr<Variable> VariablePtr; /**< Type definition for shared variable pointer. */
 
 }
-
-#endif /* LIBCELLML_LIBCELLML_TYPES_H_ */
-
-

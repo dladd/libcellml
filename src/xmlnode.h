@@ -1,5 +1,5 @@
 /*
-Copyright 2015 University of Auckland
+Copyright libCellML Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef XMLNODE_H
-#define XMLNODE_H
+#pragma once
 
 #include <libxml/parser.h>
 #include <memory>
@@ -159,5 +158,3 @@ private:
 };
 
 }
-
-#endif // XMLNODE_H

@@ -1,5 +1,5 @@
 /*
-Copyright 2015 University of Auckland
+Copyright libCellML Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -103,8 +103,31 @@ TEST(Component, contains) {
 }
 
 TEST(Component, addChildrenAndSerialise) {
-    const std::string e1 = "<component name=\"child0\"/><component name=\"child1\"/><component name=\"child2\"/><encapsulation><component_ref component=\"child0\"><component_ref component=\"child1\"><component_ref component=\"child2\"/></component_ref></component_ref></encapsulation>";
-    const std::string e2 = "<component name=\"child0\"/><component name=\"child1\"/><component name=\"child2\"/><component name=\"child3\"/><encapsulation><component_ref component=\"child0\"><component_ref component=\"child1\"><component_ref component=\"child2\"><component_ref component=\"child3\"/></component_ref></component_ref></component_ref></encapsulation>";
+    const std::string e1 =
+            "<component name=\"child0\"/>"
+            "<component name=\"child1\"/>"
+            "<component name=\"child2\"/>"
+            "<encapsulation>"
+                "<component_ref component=\"child0\">"
+                    "<component_ref component=\"child1\">"
+                        "<component_ref component=\"child2\"/>"
+                    "</component_ref>"
+                "</component_ref>"
+            "</encapsulation>";
+    const std::string e2 =
+            "<component name=\"child0\"/>"
+            "<component name=\"child1\"/>"
+            "<component name=\"child2\"/>"
+            "<component name=\"child3\"/>"
+            "<encapsulation>"
+                "<component_ref component=\"child0\">"
+                    "<component_ref component=\"child1\">"
+                        "<component_ref component=\"child2\">"
+                            "<component_ref component=\"child3\"/>"
+                        "</component_ref>"
+                    "</component_ref>"
+                "</component_ref>"
+            "</encapsulation>";
     libcellml::ComponentPtr c0 = std::make_shared<libcellml::Component>();
     libcellml::ComponentPtr c1 = std::make_shared<libcellml::Component>();
     libcellml::ComponentPtr c2 = std::make_shared<libcellml::Component>();
@@ -128,8 +151,24 @@ TEST(Component, addChildrenAndSerialise) {
 }
 
 TEST(Component, removeComponentMethods) {
-    const std::string e1 = "<component/><component name=\"child2\"/><encapsulation><component_ref><component_ref component=\"child2\"/></component_ref></encapsulation>";
-    const std::string e2 = "<component/><component name=\"child2\"/><component name=\"child1\"/><encapsulation><component_ref><component_ref component=\"child2\"/><component_ref component=\"child1\"/></component_ref></encapsulation>";
+    const std::string e1 =
+            "<component/>"
+            "<component name=\"child2\"/>"
+            "<encapsulation>"
+                "<component_ref>"
+                    "<component_ref component=\"child2\"/>"
+                "</component_ref>"
+            "</encapsulation>";
+    const std::string e2 =
+            "<component/>"
+            "<component name=\"child2\"/>"
+            "<component name=\"child1\"/>"
+            "<encapsulation>"
+                "<component_ref>"
+                    "<component_ref component=\"child2\"/>"
+                    "<component_ref component=\"child1\"/>"
+                "</component_ref>"
+            "</encapsulation>";
     const std::string e3 = "<component/>";
     libcellml::Component c;
     libcellml::ComponentPtr c1 = std::make_shared<libcellml::Component>();
@@ -165,8 +204,34 @@ TEST(Component, removeComponentMethods) {
 }
 
 TEST(Component, getComponentMethods) {
-    const std::string e1 = "<component/><component name=\"childA\"/><encapsulation><component_ref><component_ref component=\"childA\"/></component_ref></encapsulation>";
-    const std::string e2 = "<component name=\"parent\"/><component name=\"gus\"/><component name=\"childB\"/><component name=\"child3\"/><component name=\"gus\"/><component name=\"childB\"/><component name=\"child3\"/><encapsulation><component_ref component=\"parent\"><component_ref component=\"gus\"><component_ref component=\"childB\"/><component_ref component=\"child3\"/></component_ref><component_ref component=\"gus\"><component_ref component=\"childB\"/><component_ref component=\"child3\"/></component_ref></component_ref></encapsulation>";
+    const std::string e1 =
+            "<component/>"
+            "<component name=\"childA\"/>"
+            "<encapsulation>"
+                "<component_ref>"
+                    "<component_ref component=\"childA\"/>"
+                "</component_ref>"
+            "</encapsulation>";
+    const std::string e2 =
+            "<component name=\"parent\"/>"
+            "<component name=\"gus\"/>"
+            "<component name=\"childB\"/>"
+            "<component name=\"child3\"/>"
+            "<component name=\"gus\"/>"
+            "<component name=\"childB\"/>"
+            "<component name=\"child3\"/>"
+            "<encapsulation>"
+                "<component_ref component=\"parent\">"
+                    "<component_ref component=\"gus\">"
+                        "<component_ref component=\"childB\"/>"
+                        "<component_ref component=\"child3\"/>"
+                    "</component_ref>"
+                    "<component_ref component=\"gus\">"
+                        "<component_ref component=\"childB\"/>"
+                        "<component_ref component=\"child3\"/>"
+                    "</component_ref>"
+                "</component_ref>"
+            "</encapsulation>";
     libcellml::Component c;
     libcellml::ComponentPtr c1 = std::make_shared<libcellml::Component>();
     libcellml::ComponentPtr c2 = std::make_shared<libcellml::Component>();
@@ -237,9 +302,36 @@ TEST(Component, takeComponentMethods) {
 }
 
 TEST(Component, replaceComponentMethods) {
-    const std::string e_orig = "<component name=\"parent\"/><component/><component name=\"child2\"/><encapsulation><component_ref component=\"parent\"><component_ref/><component_ref component=\"child2\"/></component_ref></encapsulation>";
-    const std::string e_after = "<component name=\"parent\"/><component/><component name=\"child3\"/><encapsulation><component_ref component=\"parent\"><component_ref/><component_ref component=\"child3\"/></component_ref></encapsulation>";
-    const std::string e_post = "<component name=\"parent\"/><component name=\"child4\"/><component name=\"child3\"/><encapsulation><component_ref component=\"parent\"><component_ref component=\"child4\"/><component_ref component=\"child3\"/></component_ref></encapsulation>";
+    const std::string e_orig =
+            "<component name=\"parent\"/>"
+            "<component/>"
+            "<component name=\"child2\"/>"
+            "<encapsulation>"
+                "<component_ref component=\"parent\">"
+                    "<component_ref/>"
+                    "<component_ref component=\"child2\"/>"
+                "</component_ref>"
+            "</encapsulation>";
+    const std::string e_after =
+            "<component name=\"parent\"/>"
+            "<component/>"
+            "<component name=\"child3\"/>"
+            "<encapsulation>"
+                "<component_ref component=\"parent\">"
+                    "<component_ref/>"
+                    "<component_ref component=\"child3\"/>"
+                "</component_ref>"
+            "</encapsulation>";
+    const std::string e_post =
+            "<component name=\"parent\"/>"
+            "<component name=\"child4\"/>"
+            "<component name=\"child3\"/>"
+            "<encapsulation>"
+                "<component_ref component=\"parent\">"
+                    "<component_ref component=\"child4\"/>"
+                    "<component_ref component=\"child3\"/>"
+                "</component_ref>"
+            "</encapsulation>";
 
     libcellml::Component c;
     libcellml::ComponentPtr c1 = std::make_shared<libcellml::Component>();
@@ -272,7 +364,14 @@ TEST(Component, replaceComponentMethods) {
 }
 
 TEST(Component, constructors) {
-    const std::string e = "<component name=\"my_name\"/><component/><encapsulation><component_ref component=\"my_name\"><component_ref/></component_ref></encapsulation>";
+    const std::string e =
+            "<component name=\"my_name\"/>"
+            "<component/>"
+            "<encapsulation>"
+                "<component_ref component=\"my_name\">"
+                    "<component_ref/>"
+                "</component_ref>"
+            "</encapsulation>";
     const std::string n = "my_name";
     libcellml::Component c, c1, c2;
 
@@ -289,11 +388,11 @@ TEST(Component, constructors) {
     // Testing move assignment for component
     c2 = std::move(c1);
     EXPECT_EQ("my_name", c2.getName());
-    EXPECT_EQ("", c1.getName());
+    // c1 is now in a valid but undefined state. For us this means we cannot use it, the pointer to implementation
+    // is now a nullptr and anything that tries to dereference it will segfault, like getName().
+    // EXPECT_EQ("", c1.getName());
 
     // Testing move constructor for component
     libcellml::Component c3 = std::move(c2);
     EXPECT_EQ("my_name", c3.getName());
-    EXPECT_EQ("", c2.getName());
-
 }

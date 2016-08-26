@@ -1,5 +1,5 @@
 /*
-Copyright 2015 University of Auckland
+Copyright libCellML Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef LIBCELLML_LIBCELLML_ENTITY_H_
-#define LIBCELLML_LIBCELLML_ENTITY_H_
+#pragma once
 
 #include <string>
 
@@ -135,13 +134,8 @@ private:
 
     void swap(Entity &rhs); /**< Swap method required for C++ 11 move semantics. */
 
-    Model *mParentModel; /**< Pointer to parent model. */
-    Component *mParentComponent; /**< Pointer to component model. */
-    std::string mId; /**< String document identifier for this entity. */
+    struct EntityImpl;
+    EntityImpl* mPimpl;
 };
 
 }
-
-#endif /* LIBCELLML_LIBCELLML_ENTITY_H_ */
-
-

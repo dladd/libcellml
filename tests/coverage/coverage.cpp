@@ -1,5 +1,5 @@
 /*
-Copyright 2015 University of Auckland
+Copyright libCellML Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -44,14 +44,14 @@ TEST(Coverage, entity) {
     em = std::move(e);
 
     libcellml::Model m;
-    e.setParent(&m);
+    em.setParent(&m);
 
-    EXPECT_EQ(&m, e.getParent());
+    EXPECT_EQ(&m, em.getParent());
 
     libcellml::Component c;
-    e.setParent(&c);
+    em.setParent(&c);
 
-    EXPECT_EQ(&c, e.getParent());
+    EXPECT_EQ(&c, em.getParent());
 }
 
 TEST(Coverage, units) {
@@ -169,7 +169,11 @@ TEST(Coverage, variable) {
 }
 
 TEST(Coverage, component) {
-    std::string e = "<component name=\"name\"><variable/><1+1=2></component>";
+    std::string e =
+            "<component name=\"name\">"
+                "<variable/>"
+                "<1+1=2>"
+            "</component>";
     libcellml::Component c, cm;
     libcellml::VariablePtr v = std::make_shared<libcellml::Variable>();
 
@@ -187,7 +191,14 @@ TEST(Coverage, component) {
 }
 
 TEST(Coverage, componentEntity) {
-    const std::string e = "<component/><component/><encapsulation><component_ref><component_ref/></component_ref></encapsulation>";
+    const std::string e =
+            "<component/>"
+            "<component/>"
+            "<encapsulation>"
+                "<component_ref>"
+                    "<component_ref/>"
+                "</component_ref>"
+            "</encapsulation>";
     libcellml::Component p, pm;
     libcellml::ComponentPtr child = std::make_shared<libcellml::Component>();
     p.addComponent(child);

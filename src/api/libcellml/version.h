@@ -1,5 +1,5 @@
 /*
-Copyright 2015 libCellML Contributors
+Copyright libCellML Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef LIBCELLML_LIBCELLML_VERSION_H_
-#define LIBCELLML_LIBCELLML_VERSION_H_
+#pragma once
 
 #include <string>
 
@@ -44,5 +43,3 @@ LIBCELLML_EXPORT const std::string versionString();
 LIBCELLML_EXPORT unsigned int version();
 
 }  // namespace libcellml
-
-#endif  // LIBCELLML_LIBCELLML_VERSION_H_
