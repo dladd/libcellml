@@ -173,7 +173,7 @@ def guccione():
     Q = Symbol("Q")
 
     sysEq = (
-        Eq(Q, 2 * c2 * (E11 + E22 + E * 33) +
+        Eq(Q, 2 * c2 * (E11 + E22 + E33) +
            c3 * E11 ** 2 +
            c4 * (E33 ** 2 + E22 ** 2 + 2 * E23 ** 2) +
            2 * c5 * (E13 ** 2 + E12 ** 2)),
@@ -197,8 +197,10 @@ def guccione():
     pprint(strainSolution)
 
     print("\n\n Try declaring Q as a separate equation and defining constants:\n")
-    Q = 2 * c2 * (E11 + E22 + E * 33) + c3 * E11 ** 2 + c4 * (E33 ** 2 + E22 ** 2 + 2 * E23 ** 2) + 2 * c5 * (
-    E13 ** 2 + E12 ** 2)
+    Q = (2 * c2 * (E11 + E22 + E33) +
+        c3 * E11 ** 2 +
+        c4 * (E33 ** 2 + E22 ** 2 + 2 * E23 ** 2) +
+        2 * c5 * (E13 ** 2 + E12 ** 2))
     c1 = 0.88
     c2 = 0
     c3 = 18.5
@@ -276,7 +278,8 @@ if __name__ == "__main__":
     simpleOde()
     lorenz()
     rivlin()
-    #guccione()
 
     underdetermined()
     overdetermined()
+
+    guccione()
