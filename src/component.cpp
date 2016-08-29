@@ -151,24 +151,21 @@ void Component::removeAllVariables()
     mPimpl->mVariables.clear();
 }
 
-VariablePtr Component::getVariable(size_t index)
+VariablePtr Component::getVariable(size_t index) const
 {
-    return mPimpl->mVariables.at(index);
+    if (index < mPimpl->mVariables.size()) {
+        return mPimpl->mVariables.at(index);
+    }
+    return nullptr;
 }
 
-const VariablePtr& Component::getVariable(size_t index) const
+VariablePtr Component::getVariable(const std::string &name) const
 {
-    return mPimpl->mVariables.at(index);
-}
-
-VariablePtr Component::getVariable(const std::string &name)
-{
-    return mPimpl->mVariables.at(mPimpl->findVariable(name) - mPimpl->mVariables.begin());
-}
-
-const VariablePtr& Component::getVariable(const std::string &name) const
-{
-    return mPimpl->mVariables.at(mPimpl->findVariable(name) - mPimpl->mVariables.begin());
+    auto result = mPimpl->findVariable(name);
+    if (result == mPimpl->mVariables.end()) {
+        return nullptr;
+    }
+    return *result;
 }
 
 size_t Component::variableCount() const
@@ -176,12 +173,12 @@ size_t Component::variableCount() const
     return mPimpl->mVariables.size();
 }
 
-bool Component::hasVariable(const VariablePtr &variable)
+bool Component::hasVariable(const VariablePtr &variable) const
 {
     return mPimpl->findVariable(variable) != mPimpl->mVariables.end();
 }
 
-bool Component::hasVariable(const std::string &name)
+bool Component::hasVariable(const std::string &name) const
 {
     return mPimpl->findVariable(name) != mPimpl->mVariables.end();
 }

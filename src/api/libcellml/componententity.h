@@ -16,8 +16,8 @@ limitations under the License.
 
 #pragma once
 
-#include "libcellml/importedentity.h"
 #include "libcellml/exportdefinitions.h"
+#include "libcellml/importedentity.h"
 #include "libcellml/types.h"
 
 namespace libcellml {
@@ -117,56 +117,30 @@ public:
     /**
      * @brief Get a units at the given @p index.
      *
-     * Returns a @c const reference to a units at the given @p index.  If the
-     * @p index is not valid a @c std::out_of_range exception is thrown.
-     *
-     * @param index The index of the units to return (zero-based).
-     *
-     * @return A @c const reference to the units at the given @p index.
-     */
-    const UnitsPtr& getUnits(size_t index) const;
-
-    /**
-     * @brief Get a units at the given @p index.
-     *
      * Returns a reference to a units at the given @p index.  If the @p index
-     * is not valid a @c std::out_of_range exception is thrown.
+     * is not valid a @c nullptr is returned.
      *
      * @overload
      *
      * @param index The index of the units to return (zero-based).
      *
-     * @return A reference to the units at the given @p index.
+     * @return A reference to the units at the given @p index on success, @c nullptr otherwise.
      */
-    UnitsPtr getUnits(size_t index);
-
-    /**
-     * @brief Get a units with the given @p name.
-     *
-     * Returns a @c const reference to a units with the given @p name.  If the
-     * @p name is not valid a @c std::out_of_range exception is thrown.
-     *
-     * @overload
-     *
-     * @param name The name of the units to return.
-     *
-     * @return A @c const reference to the units with the given @p name.
-     */
-    const UnitsPtr& getUnits(const std::string &name) const;
+    UnitsPtr getUnits(size_t index) const;
 
     /**
      * @brief Get a units with the given @p name.
      *
      * Returns a reference to a units with the given @p name.  If the @p name
-     * is not valid a @c std::out_of_range exception is thrown.
+     * is not valid a @c nullptr is returned.
      *
      * @overload
      *
      * @param name The name of the units to return.
      *
-     * @return A reference to the units with the given @p name.
+     * @return A reference to the units with the given @p name on success, @c nullptr otherwise.
      */
-    UnitsPtr getUnits(const std::string &name);
+    UnitsPtr getUnits(const std::string &name) const;
 
     /**
      * @brief Take the units at the given @p index and return it.
@@ -323,35 +297,23 @@ public:
     /**
      * @brief Get a component at the given @p index.
      *
-     * Returns a @c const reference to a component at the given @p index.  If
-     * the @p index is not valid a @c std::out_of_range exception is thrown.
-     *
-     * @param index The index of the Component to return (zero-based).
-     *
-     * @return A @c const reference to the Component at the given @p index.
-     */
-    const ComponentPtr& getComponent(size_t index) const;
-
-    /**
-     * @brief Get a component at the given @p index.
-     *
      * Returns a reference to a component at the given @p index.  If the @p index
-     * is not valid a @c std::out_of_range exception is thrown.
+     * is not valid a @c nullptr is returned.
      *
      * @overload
      *
      * @param index The index of the Component to return (zero-based).
      *
-     * @return A reference to the Component at the given @p index.
+     * @return The Component at the given @p index on success, @c nullptr on failure.
      */
-    ComponentPtr getComponent(size_t index);
+    ComponentPtr getComponent(size_t index) const;
 
     /**
      * @brief Get a component with the given @p name.
      *
-     * Returns a @c const reference to a component with the given @p name. If @p searchEncapsulated
+     * Returns a component with the given @p name. If @p searchEncapsulated
      * is @c true (default) this will also search for the named component through this component's
-     * encapsulated components. If the @p name is not valid a @c std::out_of_range exception is thrown.
+     * encapsulated components. If the @p name is does not match a named component a @c nullptr is returned.
      *
      * @overload
      *
@@ -359,26 +321,9 @@ public:
      * @param searchEncapsulated Boolean flag to indicate whether we should also search encapsulated
      * components for the component with the specified @p name. Default value is @c true.
      *
-     * @return A @c const reference to the Component with the given @p name.
+     * @return The Component with the given @p name on success, @c nullptr on failure.
      */
-    const ComponentPtr getComponent(const std::string &name, bool searchEncapsulated=true) const;
-
-    /**
-     * @brief Get a component with the given @p name.
-     *
-     * Returns a reference to a component with the given @p name. If @p searchEncapsulated
-     * is @c true (default) this will also search for the named component through this component's
-     * encapsulated components. If the @p name is not valid a @c std::out_of_range exception is thrown.
-     *
-     * @overload
-     *
-     * @param name The name of the Component to return.
-     * @param searchEncapsulated Boolean flag to indicate whether we should also search encapsulated
-     * components for the component with the specified @p name. Default value is @c true.
-     *
-     * @return A reference to the Component with the given @p name.
-     */
-    ComponentPtr getComponent(const std::string &name, bool searchEncapsulated=true);
+    ComponentPtr getComponent(const std::string &name, bool searchEncapsulated=true) const;
 
     /**
      * @brief Take the component at the given @p index and return it.
@@ -427,8 +372,8 @@ public:
      *
      * Replaces the component with the given @p name with @p c. If @p searchEncapsulated
      * is @c true (default) this will also search for the named component through this component's
-     * encapsulated components. @p name must be a valid name of a component in this component,
-     * otherwise a @c std::out_of_range exception is thrown.
+     * encapsulated components. If @p name is not found in the components children then no replacement
+     * is made.
      *
      * @overload
      *
@@ -479,107 +424,6 @@ protected:
     std::string serialiseEncapsulation(Format format) const;
 
 private:
-    /**
-     * @brief Remove the component with the given @p name from this component entity.
-     *
-     * Remove the first component found that matches the given @p name from this
-     * component entity. If the @p name is not found throw @c std::out_of_range.
-     *
-     * @param name The name of the component to remove.
-     */
-    void removeComponentInThis(const std::string &name);
-
-    /**
-     * @brief Remove the component with the given pointer from this component entity.
-     *
-     * Remove the component with the pointer @p component from this component entity.
-     * If the component is not found throw @c std::out_of_range.
-     *
-     * @overload
-     *
-     * @param component The pointer to the component to remove.
-     */
-    void removeComponentInThis(const ComponentPtr &component);
-
-    /**
-     * @brief Tests to see if the named component is contained within this component entity.
-     *
-     * Tests to see if the component with the given @p name is contained
-     * within this component entity.  Returns @c true if the component is in the component
-     * entity and @c false otherwise.
-     *
-     * @param name The component name to test for existence in this component entity.
-     *
-     * @return @c true if the named component is in this component entity and @c false otherwise.
-     */
-    bool containsComponentInThis(const std::string &name) const;
-
-    /**
-     * @brief Tests to see if the component pointer is contained within this component entity.
-     *
-     * Tests to see if the argument component pointer @p component is contained
-     * within this component entity.  Returns @c true if the component is in the component
-     * entity and @c false otherwise.
-     *
-     * @overload
-     *
-     * @param component The component pointer to test for existence in this component entity.
-     *
-     * @return @c true if the component is in the component entity and @c false otherwise.
-     */
-    bool containsComponentInThis(const ComponentPtr &component) const;
-
-    /**
-     * @brief Get a component with the given @p name in this component entity.
-     *
-     * Returns a @c const reference to a component with the given @p name in this
-     * component entity.  If the @p name is not valid a @c std::out_of_range
-     * exception is thrown.
-     *
-     * @param name The name of the Component to return.
-     *
-     * @return A @c const reference to the Component with the given @p name.
-     */
-    const ComponentPtr& getComponentInThis(const std::string &name) const;
-
-    /**
-     * @brief Get a component with the given @p name in this component entity.
-     *
-     * Returns a reference to a component with the given @p name in this
-     * component entity.  If the @p name is not valid a @c std::out_of_range
-     * exception is thrown.
-     *
-     * @param name The name of the Component to return.
-     *
-     * @return A reference to the Component with the given @p name.
-     */
-    ComponentPtr getComponentInThis(const std::string &name);
-
-    /**
-     * @brief Take the component with the given @p name from this component
-     * entity and return it.
-     *
-     * Takes the component with the given @p name from this component entity
-     * and returns it. If an invalid @p name is passed to the method a @c std::out_of_range
-     * exception is thrown.
-     *
-     * @param name The name of the Component to take.
-     *
-     * @return The Component identified with the given @p name.
-     */
-    ComponentPtr takeComponentInThis(const std::string &name);
-
-    /**
-     * @brief Replace a component with the given @p name in this component entity.
-     *
-     * Replaces the component with the given @p name in this component entity
-     * with @p c. @p name must be a valid name of a component in the Component,
-     * otherwise a @c std::out_of_range exception is thrown.
-     *
-     * @param name The name of the Component to replace.
-     * @param c The Component to use for replacement.
-     */
-    void replaceComponentInThis(const std::string &name, const ComponentPtr &c);
 
     void swap(ComponentEntity &rhs); /**< Swap method required for C++ 11 move semantics. */
 
