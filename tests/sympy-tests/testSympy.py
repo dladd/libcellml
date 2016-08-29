@@ -5,17 +5,8 @@
     OpenCOR tutorial, respectively.
     """
 
-from sympy import *
-from sympy.solvers.ode import (_undetermined_coefficients_match, checkodesol,
-    classify_ode, classify_sysode, constant_renumber, constantsimp,
-    homogeneous_order, infinitesimals, checkinfsol, checksysodesol)
-from sympy.utilities.pytest import raises
-from scipy.integrate import odeint
-
-
-import mpmath
-from mpmath import odefun, nprint
-
+from sympy import (Symbol, Function, Eq, exp, solve, dsolve, simplify, expand, factor, cancel, pprint)
+from sympy.solvers.ode import (classify_ode, classify_sysode, checksysodesol)
 
 def simpleOde():
     # dy/dt = -a*y + b
