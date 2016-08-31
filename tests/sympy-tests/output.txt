@@ -109,9 +109,14 @@ Units substitution:
 meter = -------------- + |meter - --------------|*e                 
           perSecond      \          perSecond   /                   
 
-Which reduces to: 
+Which reduces to (should be correct): 
 
 True
+
+Which reduces to (should be incorrect): 
+
+                                        -1
+meter = meter + (meter*second - meter)*e  
 
 
 

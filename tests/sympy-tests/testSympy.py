@@ -97,7 +97,7 @@ def simpleOde():
     eqUnits = eq.subs(subMap)
     pprint(eqUnits)
 
-    print("\nWhich reduces to: \n")
+    print("\nWhich reduces to (should be correct): \n")
     s = Symbol("second")
     m = Symbol("meter")
 
@@ -105,6 +105,27 @@ def simpleOde():
     ua = 1/s
     ub = m/s
     uy0 = m
+    uy = m
+
+    subMap = {
+        t: ut,
+        a: ua,
+        b: ub,
+        y0: uy0,
+        y(t): uy
+    }
+
+    eqUnits = eq.subs(subMap)
+    pprint(eqUnits)
+
+    print("\nWhich reduces to (should be incorrect): \n")
+    s = Symbol("second")
+    m = Symbol("meter")
+
+    ut = s
+    ua = 1 / s
+    ub = m / s
+    uy0 = m * s  # This should throw off the reduction
     uy = m
 
     subMap = {
