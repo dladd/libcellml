@@ -95,6 +95,25 @@ y(t) = c *(4*c + 1)
 y(t) = 4*c  + c 
 
 
+ ----- Check units consistency: ----------
+
+Equation: 
+
+       /     b\  -a*t   b
+y(t) = |y0 - -|*e     + -
+       \     a/         a
+
+Units substitution: 
+
+        meterPerSecond   /        meterPerSecond\  -perSecond*second
+meter = -------------- + |meter - --------------|*e                 
+          perSecond      \          perSecond   /                   
+
+Which reduces to: 
+
+True
+
+
 
 
 ========= Lorenz Equations (3.1.6) =========

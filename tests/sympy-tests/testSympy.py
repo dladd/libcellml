@@ -68,6 +68,56 @@ def simpleOde():
     pprint(factor(solution))
     pprint(cancel(solution))
 
+    print("\n\n ----- Check units consistency: ----------\n")
+    t = Symbol("t")
+    a = Symbol("a")
+    b = Symbol("b")
+    y0 = Symbol("y0")
+    y = Function("y")
+
+    ut = Symbol("second")
+    ua = Symbol("perSecond")
+    ub = Symbol("meterPerSecond")
+    uy0 = Symbol("meter")
+    uy = Symbol("meter")
+
+    subMap = {
+        t: ut,
+        a: ua,
+        b: ub,
+        y0: uy0,
+        y(t): uy
+    }
+
+    eq = Eq(y(t), b/a + (y0 - b/a) * exp(-a*t))
+    print("Equation: \n")
+    pprint(eq)
+
+    print("\nUnits substitution: \n")
+    eqUnits = eq.subs(subMap)
+    pprint(eqUnits)
+
+    print("\nWhich reduces to: \n")
+    s = Symbol("second")
+    m = Symbol("meter")
+
+    ut = s
+    ua = 1/s
+    ub = m/s
+    uy0 = m
+    uy = m
+
+    subMap = {
+        t: ut,
+        a: ua,
+        b: ub,
+        y0: uy0,
+        y(t): uy
+    }
+
+    eqUnits = eq.subs(subMap)
+    pprint(eqUnits)
+
 
 def lorenz():
     print("\n\n\n\n========= Lorenz Equations (3.1.6) =========\n")
